@@ -8,7 +8,7 @@ const AuthStack = createStackNavigator();
 const AuthNavigator = () => {
   return (
     <AuthStack.Navigator>
-      <AuthStack.Screen name="Onboarding" component={Onboarding} />
+      <AuthStack.Screen name="FoundAt Cesium Example" component={Onboarding} />
     </AuthStack.Navigator>
   );
 };
