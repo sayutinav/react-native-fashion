@@ -1,58 +1,60 @@
 import * as React from "react";
-import { View, Text, ScrollView } from "react-native";
-import { WebView } from "react-native-webview";
+import { View, StyleSheet, Dimensions } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 
-const HTML = `
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <!-- Include the CesiumJS JavaScript and CSS files -->
-  <script src="https://cesium.com/downloads/cesiumjs/releases/1.75/Build/Cesium/Cesium.js"></script>
-  <link href="https://cesium.com/downloads/cesiumjs/releases/1.75/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
-  <style type="text/css">
-    html,body {
-      margin:0px;
-      height:100%;
-      overflow:hidden;
-    }
-    /* -32px for the console bar that JSFiddle adds. */
-    #cesiumContainer {
-      height:calc(100%);
-    }
-  </style>
-</head>
-<body>
-  <div id="cesiumContainer"></div>
-</body>
-</html>
-`;
+import Slide from "./Slide";
+
+const { width, height } = Dimensions.get("window");
+
 const Onboarding = () => {
   return (
-    // <View style={{ flex: 1, backgroundColor: "cyan" }}>
-    //   <Text></Text>
-    // </View>
-    <View style={{ flex: 1 }}>
-      <WebView
-        source={{ html: HTML }}
-        //style={{ marginTop: 20 }}
-        // source={{
-        //   uri:
-        //     "https://birchlabs.co.uk/linguabrowse/infopages/obsol/rnw_iframe_test.html",
-        // }}
-        automaticallyAdjustContentInsets={false}
-        /* Must be populated in order for `messagingEnabled` to be `true` to activate the
-         * JS injection user scripts, consistent with current behaviour. This is undesirable,
-         * so needs addressing in a follow-up PR. */
-        /* We read the colourToUse property in each frame to recolour each frame */
-        injectedJavaScript={`
-            Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3YjUzNWU4My1hOTgxLTRhMmItOGYwMS0wYjJiM2UxZTkwNjEiLCJpZCI6Mzc2MDMsImlhdCI6MTYwNTI0NzcxOX0.8RI2WSoRueoV5lwitkLTkV22wpywHCTxV6MLX_UXQio';
-            const viewer = new Cesium.Viewer('cesiumContainer');    
-
-              `}
-      />
+    <View style={styles.container}>
+      <View style={styles.slider}>
+        <ScrollView
+          horizontal
+          snapToInterval={width}
+          decelerationRate="fast"
+          showsHorizontalScrollIndicator={false}
+          bounces={false}
+        >
+          <Slide label={"Relaxed"} />
+          <Slide label={"Playful"} right />
+          <Slide label={"Excentric"} />
+          <Slide label={"Funky"} right />
+        </ScrollView>
+      </View>
+      <View style={styles.footer}>
+        <View
+          style={{
+            ...StyleSheet.absoluteFillObject,
+            backgroundColor: "cyan",
+          }}
+        />
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: "white",
+            borderTopLeftRadius: 75,
+          }}
+        />
+      </View>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "white",
+  },
+  slider: {
+    height: 0.61 * height,
+    backgroundColor: "cyan",
+    borderBottomRightRadius: 75,
+  },
+  footer: {
+    flex: 1,
+  },
+});
 
 export default Onboarding;
